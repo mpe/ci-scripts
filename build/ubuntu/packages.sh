@@ -21,6 +21,11 @@ elif [[ "$VERSION_ID" == "19.04" ]]; then
     PACKAGES+=" gcc-8-multilib-powerpc-linux-gnu"
 fi
 
+if [[ "$gcc_version" == "gcc9" ]]; then
+    PACKAGES+=" gcc-9-multilib-powerpc-linux-gnu"
+    PACKAGES+=" gcc-9-powerpc64le-linux-gnu"
+fi
+
 if [[ "$machine" == "ppc64le" ]]; then
     PACKAGES+=" libcap-dev"
     PACKAGES+=" libcap-ng-dev"
