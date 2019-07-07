@@ -21,19 +21,35 @@ function get_output_dir()
     local subarch="$2"
     local distro="$3"
     local version="$4"
-    local task="$5" # optional
+    local gcc_version="$5" # optional
 
     if [[ -z "$script_base" || -z "$subarch" || -z "$distro" || -z "$version" ]]; then
         echo "Error: not enough arguments to get_output_dir()" >&2
         return 1
     fi
 
-    if [[ -n "$CI_OUTPUT" ]]; then
-        echo "$CI_OUTPUT/$subarch@$distro@$version/$task"
-    else
-        echo "$script_base/../output/$subarch@$distro@$version/$task"
+    if [[ -n "$gcc_version" ]]; then
+	gcc_version="@$gcc_version"
     fi
 
+    if [[ -n "$CI_OUTPUT" ]]; then
+        echo "$CI_OUTPUT/$subarch@$distro@$version$gcc_version"
+    else
+        echo "$script_base/../output/$subarch@$distro@$version$gcc_version"
+    fi
+
+    return 0
+}
+
+function get_image_name()
+{
+    image="linuxppc/build:$1-$2"
+
+    if [[ -n "$3" ]]; then
+	image="$image-$3"
+    fi
+
+    echo "$image"
     return 0
 }
 

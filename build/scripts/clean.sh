@@ -9,8 +9,8 @@ dir="$(dirname "$0")"
 script_base="$(realpath "$dir")"
 . "$script_base/lib.sh"
 
-IFS=@ read -r task subarch distro version <<< "$1"
+IFS=@ read -r task subarch distro version gcc_version <<< "$1"
 
-output_dir=$(get_output_dir "$script_base" "$subarch" "$distro" "$version")
+output_dir=$(get_output_dir "$script_base" "$subarch" "$distro" "$version" "$gcc_version")
 
 (set -x ; rm -rf "$output_dir")

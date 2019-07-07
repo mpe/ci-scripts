@@ -15,11 +15,11 @@ dir="$(dirname "$0")"
 script_base="$(realpath "$dir")"
 . "$script_base/lib.sh"
 
-IFS=@ read -r task subarch distro version <<< "$1"
+IFS=@ read -r task subarch distro version gcc_version <<< "$1"
 
-image="linuxppc/build:$distro-$version"
+image=$(get_image_name $distro $version $gcc_version)
 
-output_dir=$(get_output_dir "$script_base" "$subarch" "$distro" "$version")
+output_dir=$(get_output_dir "$script_base" "$subarch" "$distro" "$version" "$gcc_version")
 mkdir -p "$output_dir"
 
 SRC="${SRC/#\~/$HOME}"

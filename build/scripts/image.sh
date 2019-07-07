@@ -9,9 +9,9 @@ dir="$(dirname "$0")"
 script_base="$(realpath "$dir")"
 . "$script_base/lib.sh"
 
-IFS=@ read -r task subarch distro version <<< "$1"
+IFS=@ read -r task subarch distro version gcc_version <<< "$1"
 
-image="linuxppc/build:$distro-$version"
+image=$(get_image_name $distro $version $gcc_version)
 
 if [[ "$task" == "image" ]]; then
     exists=$($DOCKER images -q --filter=reference="$image")
@@ -45,6 +45,7 @@ fi
 cmd+="--build-arg uid=$UID "
 cmd+="--build-arg gid=$GID "
 cmd+="--build-arg from=$distro:$version "
+cmd+="--build-arg gcc_version=$gcc_version "
 cmd+="-t $image-$(uname -m) "
 cmd+="-t $image ."
 
